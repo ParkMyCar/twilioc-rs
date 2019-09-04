@@ -1,15 +1,19 @@
 use std::fs;
 
-use serde_derive::{Deserialize, Serialize};
-use toml
+use serde_derive::Deserialize;
+use toml;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub keys: Option<Keys>,
+    pub user_prefs: Option<UserPrefs>,
 }
 impl Config {
-    pub fn new(keys: Keys) -> Config {
-        keys: Some(keys)
+    pub fn new(keys: Keys, user_prefs: UserPrefs) -> Config {
+        Config {
+            keys: Some(keys),
+            user_prefs: Some(user_prefs),
+        }
     }
 }
 
@@ -19,7 +23,7 @@ pub struct Keys {
     pub auth_token: Option<String>,
 }
 impl Keys {
-    pub fn new(account_sid: String, auth_token: String) -> {
+    pub fn new(account_sid: String, auth_token: String) -> Keys {
         Keys {
             account_sid: Some(account_sid),
             auth_token: Some(auth_token),
@@ -27,8 +31,14 @@ impl Keys {
     }
 }
 
-pub fn read_config_from_file(path: String) -> Result<Config, toml::de::Error> {
-    let file_contents = fs::read_to_string(config_filename)
-        .expect("Something went wrong with reading the config file!");
+#[derive(Debug, Deserialize)]
+pub struct UserPrefs {
+    /// Default number from which all texts are sent
+    pub from: Option<String>,
+}
+
+pub fn read_config_from_file(path: &str) -> Result<Config, toml::de::Error> {
+    let file_contents =
+        fs::read_to_string(path).expect("Something went wrong with reading the config file!");
     toml::from_str(&file_contents)
 }
