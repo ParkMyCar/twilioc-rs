@@ -7,7 +7,9 @@
    ╚═╝    ╚══╝╚══╝ ╚═╝╚══════╝╚═╝ ╚═════╝  ╚═════╝        ╚═╝  ╚═╝╚══════╝
 ```
 
-   A Twilio Client library written in Rust
+## Work in Progress - Not Stable
+
+A Twilio Client library written in Rust
 
 
 ## Example Config File
